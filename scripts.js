@@ -1,16 +1,3 @@
-async function getData(city, units) {
-  let response = await fetch("https://api.openweathermap.org/data/2.5/weather?APPID=0c0060768f08926af0aeabe5a07a7597&units=" + units + "&q=" + city);
-  data = await response.json();
-  return data;
-}
-
-getData("ankara", "metric")
-.then(function(data){
-  console.log(data);
-  let myObject = processData(data);
-  console.log(myObject);
-});
-
 const processData = function(jsonData) {
   let name = jsonData.name;
   let temp = jsonData.main.temp;
@@ -34,3 +21,20 @@ const processData = function(jsonData) {
   }
   return information;
 }
+
+async function getAndProcessData(city, units) {
+  let response = await fetch("https://api.openweathermap.org/data/2.5/weather?APPID=0c0060768f08926af0aeabe5a07a7597&units=" + units + "&q=" + city);
+  data = await response.json();
+  let myObject = processData(data);
+  return myObject;
+}
+
+async function showData(city, units) {
+  let cityObject = await getAndProcessData(city, units);
+  for (let [key, value] of Object.entries(cityObject)) {
+    let htmlNode = document.getElementById(key);
+    htmlNode.innerText = value;
+  }
+}
+
+showData("frankenthal", "metric");
