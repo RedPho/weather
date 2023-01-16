@@ -1,3 +1,9 @@
+var cityNow = "Ankara";
+var unitNow = "metric";
+let unitsBtn = document.getElementById("inputUnits");
+let windSpeedNode = document.getElementById("wind_speed");
+let windSpeedUnit = document.getElementById("windSpeedUnit");
+
 const processData = function(jsonData) {
   let name = jsonData.name;
   let temp = jsonData.main.temp;
@@ -35,6 +41,33 @@ async function showData(city, units) {
     let htmlNode = document.getElementById(key);
     htmlNode.innerText = value;
   }
+  if (unitNow == "metric") {
+    windSpeedNode.innerText *= 3.6; 
+  }
 }
 
-showData("frankenthal", "metric");
+showData(cityNow, unitNow);
+
+let searchBtn = document.getElementById("search");
+searchBtn.addEventListener("click", () => {
+  cityNow = document.getElementById("inputCity").value;
+  showData(cityNow, unitNow);
+})
+
+unitsBtn.addEventListener("click", () => {
+  let unitsInDOM = document.querySelectorAll(".units");
+  if (unitsBtn.innerText == "°C") {
+    unitsBtn.innerText = "°F";
+    unitNow = "imperial";
+    windSpeedUnit.innerText = "mph";
+  }
+  else {
+    unitsBtn.innerText = "°C";
+    unitNow = "metric";
+    windSpeedUnit.innerText = "km/h"
+  }
+  unitsInDOM.forEach((unit) => {
+    unit.innerText = unitsBtn.innerText;
+  })
+  showData(cityNow, unitNow);
+})
