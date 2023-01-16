@@ -42,7 +42,7 @@ async function showData(city, units) {
     htmlNode.innerText = value;
   }
   if (unitNow == "metric") {
-    windSpeedNode.innerText *= 3.6; 
+    windSpeedNode.innerText = (windSpeedNode.innerText *= 3.6).toFixed(2); 
   }
 }
 
@@ -52,6 +52,14 @@ let searchBtn = document.getElementById("search");
 searchBtn.addEventListener("click", () => {
   cityNow = document.getElementById("inputCity").value;
   showData(cityNow, unitNow);
+  document.getElementById("inputCity").value = ""
+})
+
+let inputPlace = document.getElementById("inputCity");
+inputPlace.addEventListener("keypress", (e) => {
+  if (e.key =="Enter") {
+    searchBtn.click();
+  }
 })
 
 unitsBtn.addEventListener("click", () => {
